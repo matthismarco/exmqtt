@@ -176,7 +176,7 @@ defmodule ExMQTT do
       reconnect: {delay, max_delay},
       subscriptions: subscriptions,
       username: opts[:username],
-      opts: [{:msg_handler, handler_functions} | opts]
+      opts: opts
     }
 
     {:ok, state, {:continue, {:start_when, start_when}}}
@@ -273,7 +273,7 @@ defmodule ExMQTT do
 
     Logger.debug("[ExMQTT] Message received for #{topic}")
 
-    if msg_handler = state.handlers[:message] do
+    if msg_handler = state.message_handler do
       :ok = msg_handler.(String.split(topic, "/"), payload)
     end
 
